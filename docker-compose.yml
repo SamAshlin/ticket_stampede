@@ -1,0 +1,19 @@
+services:
+
+  redis:
+    image: redis:8.2.9-alpine
+    container_name: ticket-stampede-redis
+    ports:
+      - "6379:6379"
+
+  seller:
+    build: .
+    container_name: ticket-stampede-seller
+    ports:
+      - "8000:8000"
+
+    environment:
+      REDIS_URL: redis://redis:6379/0
+
+    depends_on:
+      - redis
